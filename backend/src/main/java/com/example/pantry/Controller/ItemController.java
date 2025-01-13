@@ -3,6 +3,7 @@ package com.example.pantry.Controller;
 import com.example.pantry.Model.Item;
 import com.example.pantry.Service.ItemService;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,24 +11,29 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("item")
+@RequestMapping("pantry")
 public class ItemController {
 
-    public ItemService itemService;
+    @Autowired
+    ItemService itemService;
 
     @GetMapping("all")
     public ResponseEntity<List<Item>> getAllItems() {
         return itemService.getAllItems();
     }
 
+    @GetMapping("category")
+    public ResponseEntity<List<Item>> getItemsByCategory(@RequestParam(value="category") String category) {
+        return itemService.getItemsByCategory(category);
+    }
+
     @GetMapping("name")
-    public ResponseEntity<Optional<Item>> getItemByName(@RequestBody Item item) {
-        String name = item.getName();
+    public ResponseEntity<Optional<Item>> getItemByName(@RequestParam(value="name") String name) {
         return itemService.getItemByName(name);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Optional<Item>> getItemById(@RequestBody Long id) {
+    public ResponseEntity<Optional<Item>> getItemById(@PathVariable Long id) {
         return itemService.getItemById(id);
     }
 
@@ -45,5 +51,4 @@ public class ItemController {
     public ResponseEntity<String> deleteItem(@PathVariable Long id) {
         return itemService.deleteItem(id);
     }
-
 }

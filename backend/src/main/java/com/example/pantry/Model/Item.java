@@ -15,6 +15,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String category;
     private Integer quantity;
     private String unit;
 
@@ -24,6 +25,10 @@ public class Item {
     //Getters and Setters
     public String getName() {
         return name;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public Integer getQuantity() {
